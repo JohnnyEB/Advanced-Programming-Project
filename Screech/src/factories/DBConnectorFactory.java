@@ -10,7 +10,7 @@ public class DBConnectorFactory {
 		if (con == null) {
 			MysqlDataSource ds = new MysqlDataSource();
 			ds.setUser("root");
-			ds.setPassword("password");
+			ds.setPassword("sharingan4.1");
 			ds.setUrl("jdbc:mysql://localhost:3307/screechdatabase");
 			try {
 				con=ds.getConnection();
