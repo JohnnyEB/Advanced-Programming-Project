@@ -11,10 +11,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+
 import javax.imageio.*;
 import javax.swing.*;
 
 import java.util.Date;
+import java.util.Locale;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -29,9 +31,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 					   lastNameBox,
 					   userNameBox,
 					   emailBox,
-					   retypeEmailBox,
-					   countryBox,
-					   birthyear;	
+					   retypeEmailBox;
+					   
+				
+	//JComboBox birthyear;	
 	
 	private JLabel firstName,
 				   lastName,
@@ -43,7 +46,7 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 				   country,
 				   dateOfBirth;	
 	
-	JComboBox birthday,birthmonth;
+	JComboBox birthday,birthmonth, birthyear, countryBox;
 	
 	JRadioButton female, male;
 	
@@ -63,7 +66,7 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 	
 	
 /**/
-	private void initializeComponents() {
+	private void initializeComponents() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
 		
 		gbl = new GridBagLayout();
@@ -77,10 +80,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 1;
         gbc.gridy = 0; 
         gbl.setConstraints(firstName,gbc);
-        firstName.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));        
+        firstName.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));        
         
         
-        firstNameBox = new JTextField(20);
+        firstNameBox = new JTextField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 1;
@@ -99,10 +102,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbl.setConstraints(lastName,gbc);
-        lastName.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        lastName.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         
-        lastNameBox = new JTextField(20);
+        lastNameBox = new JTextField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 2;
@@ -120,10 +123,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbl.setConstraints(email,gbc);
-        email.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        email.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         
-        emailBox = new JTextField(20);
+        emailBox = new JTextField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 1;
@@ -140,10 +143,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbl.setConstraints(retypeEmail,gbc);
-        retypeEmail.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        retypeEmail.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         
-        retypeEmailBox = new JTextField(20);
+        retypeEmailBox = new JTextField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 2;
@@ -162,10 +165,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbl.setConstraints(userName,gbc);
-        userName.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        userName.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         
-        userNameBox = new JTextField(20);
+        userNameBox = new JTextField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 1;
@@ -183,10 +186,10 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 2;
         gbc.gridy = 4;
         gbl.setConstraints(password,gbc);
-        password.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        password.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
        
         
-        passwordBox = new JPasswordField(20);
+        passwordBox = new JPasswordField(28);
         gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 2;
@@ -207,63 +210,99 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbl.setConstraints(country,gbc);
-        country.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        country.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         
-        countryBox = new JTextField(20);
-        gbc.ipadx = 8;
-        gbc.ipady = 8;
-        gbc.gridx = 1;
+        countryBox = new JComboBox(getAllCountries());//JTextField(20);
+        countryBox.setSize(10, 2);
+        gbc.ipadx = 4;
+        gbc.ipady = 4;
+        gbc.gridx = 0;
         gbc.gridy = 7;
+        gbc.gridwidth = 2;
         gbl.setConstraints(countryBox,gbc);
         countryBox.setBackground(Color.WHITE);
         countryBox.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
         
-      //------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------
+        
+        retypePassword = new JLabel(" Re-Type Password");
+		gbc.ipadx = 1;
+        gbc.ipady = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 6;
+        gbl.setConstraints(retypePassword,gbc);
+        retypePassword.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
+       
+        
+        retypePasswordBox = new JPasswordField(28);
+        gbc.ipadx = 8;
+        gbc.ipady = 8;
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbl.setConstraints(retypePasswordBox,gbc);
+        retypePasswordBox.setBackground(Color.WHITE);
+        retypePasswordBox.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
+        
+        
+      
+  
+        
+        //------------------------------------------------------------------------------------------------------------------
 
         dateOfBirth = new JLabel("Date of Birth");
 		gbc.ipadx = 8;
         gbc.ipady = 8;
         gbc.gridx = 1;
         gbc.gridy = 8;
+        gbc.gridwidth= 2;
         gbl.setConstraints(dateOfBirth, gbc);
-        dateOfBirth.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));  
+        dateOfBirth.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));  
         
         
-        birthday = new JComboBox(new String[]{"day","1","2","3","4","5","6","7","8","9","10",
+        birthday = new JComboBox(new String[]{"Day","1","2","3","4","5","6","7","8","9","10",
 				"11","12","13","14","15","16","17","18","19","20",
 				"21","22","23","24","25","26","29","30","31"});
         gbc.ipadx = 8;
         gbc.ipady = 8;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 9;
         gbl.setConstraints(birthday,gbc);
         //birthday.setBackground(Color.WHITE);
-        birthday.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 14));
+        birthday.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 14));
         
         //------------------------------------------------------------------------------------------------------------------
     
         
-        birthmonth = new JComboBox(new String[]{"month","January","February","March","April","May","June",
+        birthmonth = new JComboBox(new String[]{"Month","January","February","March","April","May","June",
 				  "July","August","September","October","November","December"});
   
 		gbc.ipadx = 8;
         gbc.ipady = 8;
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 9;
         gbl.setConstraints(birthmonth, gbc);
-        birthmonth.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 15));
+        birthmonth.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
         //------------
         
-        birthyear = new JTextField("Year",5);
+        birthyear = new JComboBox(new String[]{"Year","2016", "2015", "2014","2013","2012","2011","2010","2009",
+        		"2008", "2007", "2006", "2005", "2004","2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996",
+        		"1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", 
+        		"1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970",
+        		"1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960", "1959", "1958", "1957",
+        		"1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945", "1944", 
+        		"1943", "1942", "1941", "1940", "1939", "1938", "1937", "1936", "1935", "1934", "1933", "1932", "1931",
+        		"1930", "1929", "1928", "1927", "1926", "1925", "1924", "1923", "1922", "1921", "1920", "1919", "1918", 
+        		"1917", "1916", "1915", "1914", "1913", "1912", "1911", "1910", "1909", "1908", "1907", "1906", "1905",
+        		"1904", "1903", "1902", "1901", "1900" });
         gbc.ipadx = 8;
         gbc.ipady = 8;
-        gbc.gridx = 3;
+        gbc.gridx = 2;
         gbc.gridy = 9;
         gbl.setConstraints(birthyear,gbc);
         birthyear.setBackground(getBackground());
-        birthyear.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 14));
+        birthyear.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 14));
         
         
         
@@ -272,10 +311,13 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
         signUp = new JButton("SIGN UP");
 		gbc.ipadx = 10;
         gbc.ipady = 10;
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 12;
+        //gbc.gridwidth= 2;
+       // gbc.gridheight= 2;
         gbl.setConstraints(signUp,gbc);
         signUp.setBackground(Color.GREEN);
+        UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         signUp.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 15));
         
       //------------------------------------------------------------------------------------------------------------------
@@ -309,6 +351,8 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 		add(passwordBox);
 		add(country);
 		add(countryBox);
+		add(retypePassword);
+		add(retypePasswordBox);
 		add(dateOfBirth);
 		add(birthday);
 		add(birthmonth);
@@ -345,12 +389,12 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 	}
 	
 	/*|	Constructor |*/
-	public SignUpUserInterface(Application app) 
+	public SignUpUserInterface(Application app) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException 
 	{
-		super("Instant Messenger");
+		super("Hotline Bling");
 		setDesign();
 		try {
-			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("../Screech/src/image1.jpg")))));
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("../Screech/src/newWall1.jpg")))));
 		} catch (IOException e) {
 			System.out.println("Image does not exist");
 		}
@@ -372,7 +416,7 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 	
 	public final static void setDesign() {
         try{
-        	UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception e){   
         }
     }
@@ -382,7 +426,7 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 		if(ae.getSource().equals(signUp)) {
 			user.createUser(userNameBox.getText().toString(), firstNameBox.getText().toString(), 
 					lastNameBox.getText().toString(), passwordBox.getName(), 
-					emailBox.getText().toString(), countryBox.getText().toString());
+					emailBox.getText().toString(), countryBox.getSelectedItem().toString());
 		}
 		
 	}
@@ -391,6 +435,17 @@ public class SignUpUserInterface extends JFrame implements ActionListener{
 	      DateFormat format = new SimpleDateFormat("MM/DD/YYYY"); //display your format.
 	      Date date = new Date();//puts the date in variable.
 	      return format.format(date); //returns the format to the date variable.
+	}
+	
+	public String[] getAllCountries(){
+		String[] countries = new String[Locale.getISOCountries().length];
+	    String[] countryCodes = Locale.getISOCountries();
+	    for (int i = 0; i < countryCodes.length; i++) {
+	        Locale obj = new Locale("", countryCodes[i]);
+	        countries[i] = obj.getDisplayCountry();
+	    }
+	    countries[0]= "-- Please select a country --";
+	    return countries;
 	}
 
 
