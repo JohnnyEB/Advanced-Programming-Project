@@ -10,10 +10,12 @@ public class Application {
 	
 	User user;
 	SignUpUserInterface signUp;
+	LogInUserInterface logIn;
 	
 	public Application() {
 		user = new User();
-		signUp = new SignUpUserInterface(this);
+		//signUp = new SignUpUserInterface(this);
+		logIn = new LogInUserInterface();
 	}
 
 	public static void main(String[] args) {
